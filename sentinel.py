@@ -9,21 +9,17 @@ from dotenv import load_dotenv
 from supabase import create_client, Client
 
 # --- CONFIGURATION ---
-load_dotenv() # This loads the variables from the .env file
+load_dotenv() # Load secrets from .env file
 SYMBOL = "btcusdt"
-THRESHOLD_MULTIPLIER = 10 
+THRESHOLD_MULTIPLIER = 10  # Whale threshold: 10x average volume
 WINDOW_SIZE = 100 
 
-# --- SUPABASE CONNECTION (FIXED) ---
-# We ask for the NAME of the variable, not the value.
+# --- SUPABASE CONNECTION ---
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 
 if not url or not key:
     print("❌ ERROR: Missing Supabase credentials in .env file")
-    # Debugging help:
-    print(f"DEBUG: Found URL: {url}") 
-    print(f"DEBUG: Found KEY: {key}")
     exit()
 
 supabase: Client = create_client(url, key)
